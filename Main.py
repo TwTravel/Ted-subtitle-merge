@@ -84,7 +84,7 @@ def MergeSubtitles( trunkSubtitles, branchSubtitles ):
   lengthForChineseSubtitles = len(trunkSubtitles)
   lengthForEnglishSubtitles = len(branchSubtitles)
   
-  lastObject = enTalk.subtitles[lengthForEnglishSubtitles-1]
+  lastObject = branchSubtitles[lengthForEnglishSubtitles-1]
   lastObject.startTime = lastObject.endTime
   branchSubtitles.append(lastObject)
 
