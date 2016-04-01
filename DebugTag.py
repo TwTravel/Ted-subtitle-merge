@@ -9,7 +9,8 @@ def InitDebugTagTypes():
 def InitDebugTags():
   DebugTagType = InitDebugTagTypes()
   debugTags = []
-  #git debugTags.append(DebugTagType.GroupToParagraph)
+  
+  debugTags.append(DebugTagType.GroupToParagraph)
   #debugTags.append(DebugTagType.MergeSubtitles)
 
   debugTags.append(DebugTagType.PrintSubtitles)

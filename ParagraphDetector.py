@@ -8,9 +8,7 @@ def HasContainsEndMark(content):
     if content[-1].encode('utf8') == i:
       return True
 
-
   return False
-
 
 
 def HasEvenQuotes( content ):
@@ -27,14 +25,13 @@ def HasPairChar( content ):
   return False
 
 def IsNewParagraph(isStartOfParagraph, sentence):
-  maxCharInSentence = 50
+  maxCharInSentence = 150
   
   newParagraph = isStartOfParagraph
-  newParagraph = newParagraph or len(sentence) > maxCharInSentence
   newParagraph = newParagraph and HasEvenQuotes(sentence)
   newParagraph = newParagraph and HasContainsEndMark(sentence)
   newParagraph = newParagraph and HasPairChar(sentence.encode('utf8'))
   newParagraph = newParagraph and len(sentence) != 0
-  newParagraph = newParagraph or len(sentence) > 150
+  newParagraph = newParagraph or len(sentence) > maxCharInSentence
   return newParagraph
   

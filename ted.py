@@ -1,35 +1,16 @@
 # -*- coding: utf8 -*-
 import json
-import os
-import urllib2
+
+
 
 import DebugTag
 import ParagraphDetector as paragraphDetector
+import TedTalkFetcher as tedTalkFetcher
 from TedSubtitle import TedSubtitle
 
 
 debugTags = DebugTag.InitDebugTags()
 DebugTagType = DebugTag.InitDebugTagTypes()
-
-
-
-
-def GetSubtitles(talkID, languageCode):
-  subtitleUrl = "http://www.ted.com/talks/subtitles/id/%s/lang/%s" % (talkID, languageCode)
-  response = urllib2.urlopen(subtitleUrl)
-  html = response.read() 
-  subtitles = json.loads(html)["captions"]
-  tedSubtitles = []
-  for subtitle in subtitles:
-    tedSubtitle = TedSubtitle(subtitle["startOfParagraph"], 
-                              subtitle["startTime"], 
-                              subtitle["duration"], 
-                              subtitle["content"])
-    tedSubtitles.append(tedSubtitle)
-
-  return tedSubtitles
-
-
 
 
 
@@ -60,14 +41,9 @@ def IsInt(s):
 
    
 talkURL = "http://www.ted.com/talks/sebastian_wernicke_how_to_use_data_to_make_a_hit_tv_show"
-##talkURL = "http://www.ted.com/talks/kenneth_cukier_big_data_is_better_data"
-talkTitle = talkURL.split('/')[-1].replace('_',' ')
+talkID = tedTalkFetcher.GetID(talkURL)
+talkTitle = tedTalkFetcher.GetTitle(talkURL)
 
-
-
-#print '\n\n'
-command = "curl -s %s | grep source=facebook | awk -F '=' '{print $3}' | awk -F '&' '{print $1}'" % ( talkURL )
-talkID = os.popen(command).readlines()[0].strip()
 
 
 chineselanguageCode = 'zh-tw'
@@ -77,8 +53,8 @@ englishlanguageCode = 'en'
 baseDirPath = 'practice/'
 filePath = '%s/%s.txt' % (baseDirPath, str(talkID))
 
-engSubtitles = ResetStartTime(GetSubtitles( talkID, englishlanguageCode ))
-chineseSubtitles = ResetStartTime(GetSubtitles( talkID, chineselanguageCode ))
+engSubtitles = ResetStartTime(tedTalkFetcher.GetSubtitles( talkID, englishlanguageCode ))
+chineseSubtitles = ResetStartTime(tedTalkFetcher.GetSubtitles( talkID, chineselanguageCode ))
 
 
 
@@ -102,7 +78,6 @@ def GroupToParagraph(subtitles):
       if paragraph.duration == 0:
         paragraph.duration = subtitles[i-1].endTime
 
-
       paragraphs.append(paragraph)
       paragraph = TedSubtitle(content = subtitle.content)
       lastAddedIndex = i
@@ -112,10 +87,7 @@ def GroupToParagraph(subtitles):
       
 
   if lastAddedIndex < len(subtitles):
-
     paragraphs.append(paragraph)
-
-
 
   return paragraphs
 
