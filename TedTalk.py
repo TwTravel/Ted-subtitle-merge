@@ -9,7 +9,14 @@ class TedTalk(object):
     self.id = tedTalkFetcher.GetID(url)
     self.title = tedTalkFetcher.GetTitle(url)
     self.subtitles = ResetStartTime(tedTalkFetcher.GetSubtitles( self.id, languageCode))
-    
+  
+  def __str__(self):
+    description = "Title:%s\n" % self.title
+    for i in self.subtitles:
+      description += i.__str__() + '\n'
+
+    return description
+
 
 
 

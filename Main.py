@@ -9,14 +9,6 @@ debugTags = DebugTag.InitDebugTags()
 DebugTagType = DebugTag.InitDebugTagTypes()
 
 
-
-
-def PrintSubtitles(subtitles):
- for i in range(len(subtitles)):
-    print subtitles[i].__str__()
-    
-
-
 def IsInt(s):
   try: 
     int(s)
@@ -81,7 +73,8 @@ def GroupToParagraph(subtitles):
 filteredChineseSubtitles = GroupToParagraph(chTalk.subtitles)
 
 if DebugTagType.GroupToParagraph in debugTags:
-  PrintSubtitles(filteredChineseSubtitles)
+  print chTalk
+  print enTalk
 
 
 
