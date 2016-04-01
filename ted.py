@@ -3,46 +3,10 @@ import json
 import os
 import urllib2
 
-def enum(*sequential, **named):
-    enums = dict(zip(sequential, range(len(sequential))), **named)
-    return type('Enum', (), enums)
-
-
-DebugTagType = enum( 'GroupToParagraph', 'MergeSubtitles', 'PrintSubtitles', 'File' )
-
-def InitDebugTags():
-  debugTags = []
-  #debugTags.append(DebugTagType.GroupToParagraph)
-  #debugTags.append(DebugTagType.MergeSubtitles)
-
-  #debugTags.append(DebugTagType.PrintSubtitles)
-  debugTags.append(DebugTagType.File)
-
-  return debugTags
-
-debugTags = InitDebugTags()
-
-class TedSubtitle(object):
-  """docstring for TedSubtitle"""
-  def __init__(self, startOfParagraph = True, startTime = 0, duration = 0, content = ''):
-    super(TedSubtitle, self).__init__()
-    self.startOfParagraph = startOfParagraph
-    self.startTime = startTime / 1000
-    self.duration = duration / 1000
-    self.content = content
-    self.endTime = self.startTime + self.duration
-
-
-
-  def Description(self):
-    return '\n'.join(["startTime : " + str(self.startTime),
-                      "duration  : " + str(self.duration),
-                      "content   : " + self.content.encode('utf8'),
-                      ''])    
-
-
-  def TrimNewLine(self):
-    self.content = self.content.replace('\n','')
+import DebugTag
+from TedSubtitle import TedSubtitle
+debugTags = DebugTag.InitDebugTags()
+DebugTagType = DebugTag.InitDebugTagTypes()
 
 
 
@@ -65,26 +29,10 @@ def GetSubtitles(talkID, languageCode):
 
 
 
-def json2srt(subtitles):
-
-  def conv(t):
-    return '%02d:%02d:%02d,%03d' % (
-        t / 1000 / 60 / 60,
-        t / 1000 / 60 % 60,
-        t / 1000 % 60,
-        t % 1000)
-
-
-
-
-  for i, item in enumerate(subtitles):
-    print (i,
-           conv(item.startTime),
-           conv(item.startTime + item.duration - 1),
-           item.content)
 
 def Difference( num1, num2 ):
   return abs( num1 - num2 )
+
 
 def HasContainsEndMark(content):
   if len( content) < 2:
