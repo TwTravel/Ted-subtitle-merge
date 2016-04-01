@@ -11,7 +11,7 @@ class TedSubtitle(object):
 
 
 
-  def Description(self):
+  def __str__(self):
     return '\n'.join(["startTime : " + str(self.startTime),
                       "duration  : " + str(self.duration),
                       "content   : " + self.content.encode('utf8'),

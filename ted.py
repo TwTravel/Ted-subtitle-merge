@@ -4,7 +4,10 @@ import os
 import urllib2
 
 import DebugTag
+import ParagraphDetector as paragraphDetector
 from TedSubtitle import TedSubtitle
+
+
 debugTags = DebugTag.InitDebugTags()
 DebugTagType = DebugTag.InitDebugTagTypes()
 
@@ -34,22 +37,9 @@ def Difference( num1, num2 ):
   return abs( num1 - num2 )
 
 
-def HasContainsEndMark(content):
-  if len( content) < 2:
-    return False
-
-  endMarks = [ '.', '?', '!', '。', '？', '！' ]
-  for i in endMarks:
-    if content[-1].encode('utf8') == i:
-      return True
-
-
-  return False
-
-
 def PrintSubtitles(subtitles):
  for i in range(len(subtitles)):
-    print subtitles[i].Description()
+    print subtitles[i].__str__()
     
 
 def ResetStartTime(arr):
@@ -64,33 +54,6 @@ def IsInt(s):
     return True
   except ValueError:
     return False
-
-def HasEvenQuotes( content ):
-  return content.count('"') % 2 == 0 
-
-def HasPairChar( content ):
-  leftChars =  [ u'「', u'(', u'（', u'{', u'【', u'｛', u'[']
-  rightChars = [ u'」', u')', u'）', u'}', u'】', u'｝', u']']
-  
-  for i in range(len(leftChars)):
-    if ( content.count(leftChars[i].encode('utf8')) == content.count(rightChars[i].encode('utf8')) ):
-      return True
-
-  return False
-
-def IsNewParagraph(isStartOfParagraph, sentence):
-  maxCharInSentence = 50
-  
-  newParagraph = isStartOfParagraph
-  newParagraph = newParagraph or len(sentence) > maxCharInSentence
-  newParagraph = newParagraph and HasEvenQuotes(sentence)
-  newParagraph = newParagraph and HasContainsEndMark(sentence)
-  newParagraph = newParagraph and HasPairChar(sentence.encode('utf8'))
-  newParagraph = newParagraph and len(sentence) != 0
-  newParagraph = newParagraph or len(sentence) > 150
-  return newParagraph
-  
-
 
 
 
@@ -134,7 +97,7 @@ def GroupToParagraph(subtitles):
       paragraph.startTime = subtitles[i-1].startTime
       paragraph.startOfParagraph = False    
     
-    if IsNewParagraph(subtitle.startOfParagraph, paragraph.content):
+    if paragraphDetector.IsNewParagraph(subtitle.startOfParagraph, paragraph.content):
       paragraph.TrimNewLine()
       if paragraph.duration == 0:
         paragraph.duration = subtitles[i-1].endTime
