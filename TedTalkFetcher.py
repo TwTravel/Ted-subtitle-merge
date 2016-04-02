@@ -3,6 +3,7 @@ import urllib2
 import json
 from TedSubtitle import TedSubtitle
 
+
 def GetSubtitles(talkID, languageCode):
   subtitleUrl = "http://www.ted.com/talks/subtitles/id/%s/lang/%s" % (talkID, languageCode)
 
@@ -28,14 +29,18 @@ def GetSubtitles(talkID, languageCode):
     print "The response data isn't JSON format. (%s)" % subtitleUrl
     exit(0)
  
-  
-
 
 def GetID(url):
   command = "curl -s %s | grep source=facebook | awk -F '=' '{print $3}' | awk -F '&' '{print $1}'" % ( url )
   talkID = os.popen(command).readlines()[0].strip()
-  return talkID
+  try:
+    talkID = int(talkID)
+  except:
+    print "talk id %s is't int" % talkID
+    exit(0)
 
+  return talkID
+  
 
 
 

@@ -1,6 +1,6 @@
-import TedTalkFetcher as tedTalkFetcher
+import TedTalkFetcher as TedTalkFetcher
 from TedSubtitle import TedSubtitle
-import ParagraphDetector as paragraphDetector
+import ParagraphDetector as ParagraphDetector
 
 class TedTalk(object):
   """docstring for TedTalk"""
@@ -8,9 +8,9 @@ class TedTalk(object):
     super(TedTalk, self).__init__()
     self.url = url
     self.languageCode = languageCode
-    self.id = tedTalkFetcher.GetID(url)
-    self.title = tedTalkFetcher.GetTitle(url)
-    self.subtitles = ResetStartTime(tedTalkFetcher.GetSubtitles(self.id, languageCode))
+    self.id = TedTalkFetcher.GetID(url)
+    self.title = TedTalkFetcher.GetTitle(url)
+    self.subtitles = ResetStartTime(TedTalkFetcher.GetSubtitles(self.id, languageCode))
   
   def __str__(self):
     description = "Title:%s\n" % self.title
@@ -35,7 +35,7 @@ class TedTalk(object):
         paragraph.startTime = subtitles[i-1].startTime
         paragraph.startOfParagraph = False    
       
-      if paragraphDetector.IsNewParagraph(subtitle.startOfParagraph, paragraph.content):
+      if ParagraphDetector.IsNewParagraph(subtitle.startOfParagraph, paragraph.content):
         paragraph.TrimNewLine()
         if paragraph.duration == 0:
           paragraph.duration = subtitles[i-1].endTime

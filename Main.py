@@ -1,20 +1,14 @@
 # -*- coding: utf8 -*-
 import DebugTag
-import ParagraphDetector as paragraphDetector
-import TedTalkFetcher as tedTalkFetcher
 from TedSubtitle import TedSubtitle
 from TedTalk import TedTalk
+import Number as Number
 
 debugTags = DebugTag.InitDebugTags()
 DebugTagType = DebugTag.InitDebugTagTypes()
 
 
-def IsInt(s):
-  try: 
-    int(s)
-    return True
-  except ValueError:
-    return False
+
 
 
 
@@ -118,7 +112,7 @@ def WriteFileContent(filePath, content):
   fileWrite.close() 
 
 def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
-  contents = [ enTalk.id, '\n', '\n' ]
+  contents = [ str(enTalk.id), '\n', '\n' ]
 
   for i in xrange(len(filteredChineseSubtitles)):    
     contents += [ str(i+1), filteredEnglishSubtitles[i].content.encode('utf8'),  filteredChineseSubtitles[i].content.encode('utf8'), '\n', '\n' ]
@@ -139,7 +133,7 @@ if DebugTagType.File in debugTags:
   idxForChineseSubtitles = 0
   i = 0
   while i < len(contentsInFile):
-    if IsInt(contentsInFile[i]):
+    if Number.IsInt(contentsInFile[i]):
       i += 2
       hasTranslated = len(contentsInFile[i]) > 0 or True
 
