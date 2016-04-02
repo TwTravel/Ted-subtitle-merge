@@ -9,7 +9,7 @@ def InitDebugTagTypes():
 def InitDebugTags():
   DebugTagType = InitDebugTagTypes()
   debugTags = []
-  
+
   debugTags.append(DebugTagType.GroupToParagraph)
   #debugTags.append(DebugTagType.MergeSubtitles)
 

@@ -34,47 +34,11 @@ filePath = '%s/%s.txt' % (baseDirPath, str(chTalk.id))
 
 
 
-def GroupToParagraph(subtitles):
-  lastAddedIndex = 0
-  lastAddedChar = ' '
-  paragraphs = []
-  paragraph = TedSubtitle()
-
-  subtitles.insert(0, subtitles[0])
-
-  for i in xrange(1,len(subtitles)):
-    subtitle = subtitles[i]
-
-    if paragraph.startOfParagraph:
-      paragraph.startTime = subtitles[i-1].startTime
-      paragraph.startOfParagraph = False    
-    
-    if paragraphDetector.IsNewParagraph(subtitle.startOfParagraph, paragraph.content):
-      paragraph.TrimNewLine()
-      if paragraph.duration == 0:
-        paragraph.duration = subtitles[i-1].endTime
-
-      paragraphs.append(paragraph)
-      paragraph = TedSubtitle(content = subtitle.content)
-      lastAddedIndex = i
-    else:
-      paragraph.content += subtitle.content
-      paragraph.duration = subtitle.endTime
-      
-
-  if lastAddedIndex < len(subtitles):
-    paragraphs.append(paragraph)
-
-  return paragraphs
-
-
-
-
-filteredChineseSubtitles = GroupToParagraph(chTalk.subtitles)
+filteredChineseSubtitles = TedTalk.GroupToParagraph(chTalk.subtitles)
 
 if DebugTagType.GroupToParagraph in debugTags:
   print chTalk
-  print enTalk
+  #print enTalk
 
 
 
@@ -157,7 +121,7 @@ def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
   contents = [ enTalk.id, '\n', '\n' ]
 
   for i in xrange(len(filteredChineseSubtitles)):    
-    contents += [ str(i+1), filteredEnglishSubtitles[i].content, '\n', '\n', '\n' ]
+    contents += [ str(i+1), filteredEnglishSubtitles[i].content.encode('utf8'),  filteredChineseSubtitles[i].content.encode('utf8'), '\n', '\n' ]
 
   WriteFileContent(filePath,'\n'.join(contents))
 
@@ -177,7 +141,7 @@ if DebugTagType.File in debugTags:
   while i < len(contentsInFile):
     if IsInt(contentsInFile[i]):
       i += 2
-      hasTranslated = len(contentsInFile[i]) > 0
+      hasTranslated = len(contentsInFile[i]) > 0 or True
 
       if hasTranslated:
         contentsInFile[i] = filteredChineseSubtitles[idxForChineseSubtitles].content.encode('utf8')

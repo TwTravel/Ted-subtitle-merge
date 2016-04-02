@@ -27,11 +27,12 @@ def HasPairChar( content ):
 def IsNewParagraph(isStartOfParagraph, sentence):
   maxCharInSentence = 150
   
-  newParagraph = isStartOfParagraph
-  newParagraph = newParagraph and HasEvenQuotes(sentence)
-  newParagraph = newParagraph and HasContainsEndMark(sentence)
-  newParagraph = newParagraph and HasPairChar(sentence.encode('utf8'))
-  newParagraph = newParagraph and len(sentence) != 0
-  newParagraph = newParagraph or len(sentence) > maxCharInSentence
+  newParagraph = ( isStartOfParagraph and \
+                   HasEvenQuotes(sentence) and \
+                   HasContainsEndMark(sentence) and \
+                   HasPairChar(sentence.encode('utf8')) and \
+                   len(sentence) != 0 ) or \
+                 len(sentence) > maxCharInSentence
+
   return newParagraph
   
