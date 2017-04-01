@@ -31,7 +31,7 @@ def GetSubtitles(talkID, languageCode):
  
 
 def GetID(url):
-  command = "curl -s %s | grep source=facebook | awk -F '=' '{print $3}' | awk -F '&' '{print $1}'" % ( url )
+  command = "curl -s %s | grep al:ios:ur  | awk -F '/' '{print $4}'  | awk -F '?' '{print $1}'" % ( url )
   talkID = os.popen(command).readlines()[0].strip()
   try:
     talkID = int(talkID)
