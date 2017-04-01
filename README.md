@@ -73,7 +73,7 @@ get 出來的 json 長這樣：
 所以剩下幾個有用的資訊：
 
 1. startTime
-2. duartion
+2. duration
 
 根據這兩個資訊來做 merge。
 
