@@ -31,8 +31,8 @@ https://www.ted.com/talks/sebastian_wernicke_how_to_use_data_to_make_a_hit_tv_sh
 	
 再用 talk id 去 get 網頁
 
-	https://www.ted.com/talks/subtitles/id/2403/lang/en
-	https://www.ted.com/talks/subtitles/id/2403/lang/zh-tw
+https://www.ted.com/talks/subtitles/id/2403/lang/en
+https://www.ted.com/talks/subtitles/id/2403/lang/zh-tw
 
 get 出來的 json 長這樣：
 
