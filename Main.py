@@ -111,13 +111,22 @@ def WriteFileContent(filePath, content):
   fileWrite.write(content) # python will convert \n to os.linesep
   fileWrite.close() 
 
+import json
 def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
   contents = [ str(enTalk.id), '\n', '\n' ]
 
+  obj = []
   for i in xrange(len(filteredChineseSubtitles)):    
-    contents += [ str(i+1), filteredEnglishSubtitles[i].content.encode('utf8'),  filteredChineseSubtitles[i].content.encode('utf8'), '\n', '\n' ]
+    a1 = filteredEnglishSubtitles[i].content.encode('utf8')
+    b1 = filteredChineseSubtitles[i].content.encode('utf8')
+    obj.append({"chinese" : b1, "english" : a1})
 
-  WriteFileContent(filePath,'\n'.join(contents))
+  resultObj = { "title" : "test", "url" : "http:xxx", "paragraphs" : obj}
+  result = json.dumps(resultObj, ensure_ascii=False, indent= 4)
+  
+  print result
+
+  WriteFileContent(filePath,result)
 
 
 if DebugTagType.PrintSubtitles in debugTags:
