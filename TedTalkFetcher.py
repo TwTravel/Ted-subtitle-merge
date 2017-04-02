@@ -18,12 +18,15 @@ def GetSubtitles(talkID, languageCode):
                                 subtitle["startTime"], 
                                 subtitle["duration"], 
                                 subtitle["content"])
-      tedSubtitles.append(tedSubtitle)
-
+      if(len(tedSubtitle.content) > 0):
+        tedSubtitles.append(tedSubtitle)
+      else:
+        if(len(tedSubtitles) > 0):
+          tedSubtitles[-1].extendDuration(subtitle["startTime"], subtitle["duration"])
     return tedSubtitles
 
   except urllib2.HTTPError:
-    print "Not found for url : %s" % subtitleUrl
+    #print "Not found for url : %s" % subtitleUrl
     exit(0)
   except ValueError:
     print "The response data isn't JSON format. (%s)" % subtitleUrl
@@ -32,7 +35,7 @@ def GetSubtitles(talkID, languageCode):
 
 def GetID(url):
   command = "curl -s %s | grep al:ios:ur  | awk -F '/' '{print $4}'  | awk -F '?' '{print $1}'" % ( url )
-  talkID = os.popen(command).readlines()[0].strip()
+  talkID = 53#os.popen(command).readlines()[0].strip()
   try:
     talkID = int(talkID)
   except:

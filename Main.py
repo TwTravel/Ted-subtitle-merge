@@ -3,38 +3,35 @@ import DebugTag
 from TedSubtitle import TedSubtitle
 from TedTalk import TedTalk
 import Number as Number
+import sys
+import ParagraphMerge as PMerge
+import ParagraphRefact as PRefact
+import Log 
 
 debugTags = DebugTag.InitDebugTags()
 DebugTagType = DebugTag.InitDebugTagTypes()
 
-
-
-
-
-
-
+TED_ID = sys.argv[1]
+REFACT_TYPE = sys.argv[2]
 
 talkURL = "http://www.ted.com/talks/sebastian_wernicke_how_to_use_data_to_make_a_hit_tv_show"
 
-chTalk = TedTalk( url = talkURL, languageCode = 'zh-tw' )
-enTalk = TedTalk( url = talkURL, languageCode = 'en' )
-
-
-
-
+enTalk = TedTalk( url = talkURL, languageCode = 'en',    id = TED_ID)
+chTalk = TedTalk( url = talkURL, languageCode = 'zh-tw', id = TED_ID)
+ 
 baseDirPath = 'practice/'
 filePath = '%s/%s.txt' % (baseDirPath, str(chTalk.id))
+ 
+filteredEnglishSubtitles = enTalk.subtitles
+filteredChineseSubtitles = chTalk.subtitles
 
-
-
-
-filteredChineseSubtitles = TedTalk.GroupToParagraph(chTalk.subtitles)
-
-if DebugTagType.GroupToParagraph in debugTags:
-  print chTalk
-  #print enTalk
-
-
+enLenOriginal = len(filteredEnglishSubtitles)
+chLenOriginal = len(filteredChineseSubtitles) 
+ 
+PRefact.RefactStartOfParagraph(enTalk, chTalk, refactType = REFACT_TYPE) 
+filteredChineseSubtitles = chTalk.GroupToParagraph2()
+filteredEnglishSubtitles = enTalk.GroupToParagraph2()
+Log.LogInit(TED_ID, enLenOriginal, chLenOriginal, filteredEnglishSubtitles, filteredChineseSubtitles)
 
 def MergeSubtitles( trunkSubtitles, branchSubtitles ):
   
@@ -97,9 +94,9 @@ def MergeSubtitles( trunkSubtitles, branchSubtitles ):
 
   return filteredEnglishSubtitles
 
-filteredEnglishSubtitles = MergeSubtitles( filteredChineseSubtitles, enTalk.subtitles )
-
-
+#filteredEnglishSubtitles = MergeSubtitles( filteredChineseSubtitles, enTalk.subtitles )
+[filteredChineseSubtitles, filteredEnglishSubtitles] = PMerge.MergeSubtitles(filteredEnglishSubtitles, filteredChineseSubtitles)
+Log.LogMerged(filteredEnglishSubtitles, filteredChineseSubtitles)  
 
 def ReadFileContent(filePath):
   fileRead = open(filePath, 'r')
