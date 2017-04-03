@@ -5,27 +5,14 @@ class TedSubtitle(object):
     super(TedSubtitle, self).__init__()
     self.startOfParagraph = startOfParagraph
     self.startTime = startTime #/ 1000
-    self.duration = duration #/ 1000
+    self.duration = duration   #/ 1000
     self.content = self.FilterContent(content)
     self.endTime = self.startTime + self.duration
-    self.content = self.content 
-    #self.startOfParagraph = True
-    #if( len(self.content) > 0 and (self.content[-1] == u"。" or self.content[-1] == ".")):c
-    #  print self.startOfParagraph 
-    #  self.startOfParagraph = True
-    #  print self.content
-      #raw_input("Press enter to continue")
+    self.content = self.content  
 
-  def __str__(self):
-    sp = "0"
-    if(self.startOfParagraph==True):
-      sp = "1"
-    return sp+ " " +str(self.startTime)+" "+str(self.duration)+" "+str(self.endTime)+" "+self.content.encode('utf8')
-    #return '\n'.join(["startTime : " + str(self.startTime),
-    #                  "duration  : " + str(self.duration),
-    #                  "content   : " + self.content.encode('utf8'),
-    #                  ''])    
-
+  def __str__(self): 
+    return self.startOfParagraph+ " " +str(self.startTime)+" "+str(self.duration)+" "+str(self.endTime)+" "+self.content.encode('utf8')
+     
   def TrimNewLine(self):
     self.content = self.content.replace('\n','')
 

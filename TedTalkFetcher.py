@@ -45,7 +45,5 @@ def GetID(url):
   return talkID
   
 
-
-
 def GetTitle(url):
   return url.split('/')[-1].replace('_',' ')

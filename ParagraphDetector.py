@@ -10,7 +10,6 @@ def HasContainsEndMark(content):
 
   return False
 
-
 def HasEvenQuotes( content ):
   return content.count('"') % 2 == 0 
 
