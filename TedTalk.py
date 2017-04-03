@@ -25,12 +25,13 @@ class TedTalk(object):
       subtitle = subtitles[i]
       if(subtitle.startOfParagraph):
         paragraph = TedSubtitle(content = "")
-        paragraph.startTime = subtitle.startTime  
+        paragraph.startTime = subtitle.startTime
       paragraph.content += " "+subtitle.content
 
       if(i == (len(subtitles)-1) or subtitles[i+1].startOfParagraph == True):
         paragraph.endTime = subtitle.endTime
         paragraph.duration = subtitle.endTime - paragraph.startTime
+        paragraph.content = paragraph.content.strip()
         paragraphs.append(paragraph) 
     return paragraphs
 
