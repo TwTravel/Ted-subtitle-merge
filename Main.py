@@ -8,6 +8,7 @@ import ParagraphMerge as PMerge
 import ParagraphRefact as PRefact
 import Log 
 import json
+import os
 
 debugTags = DebugTag.InitDebugTags()
 DebugTagType = DebugTag.InitDebugTagTypes()
@@ -109,6 +110,13 @@ def WriteFileContent(filePath, content):
   fileWrite.write(content) # python will convert \n to os.linesep
   fileWrite.close() 
 
+def GetTitleAndURL(id):
+  command = "curl -s http://www.ted.com/talks/view/id/%s" % id
+  output = os.popen(command).readlines()[0]
+  url = output.split('"')[1]
+  title = url.split('/')[-1]
+  title = title.title().replace('_', ' ')
+  return {"title" : title, 'url' : url}
 
 def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
   contents = [ str(enTalk.id), '\n', '\n' ]
@@ -119,7 +127,8 @@ def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
     b1 = filteredChineseSubtitles[i].content.encode('utf8')
     obj.append({"zh-tw" : b1, "en" : a1})
 
-  resultObj = { "title" : "test", "url" : "http:xxx", "paragraphs" : obj}
+  resultObj = GetTitleAndURL(TED_ID)
+  resultObj["paragraphs"] = obj
   result = json.dumps(resultObj, ensure_ascii=False)
   
   print result
