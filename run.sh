@@ -1,3 +1,4 @@
+#!/bin/sh
 SRC=$1
 DST=$2
 TYPE=$3
