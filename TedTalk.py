@@ -4,12 +4,10 @@ import ParagraphDetector as ParagraphDetector
 
 class TedTalk(object):
   """docstring for TedTalk"""
-  def __init__(self, url, languageCode = "en", id="0"):
-    super(TedTalk, self).__init__()
-    self.url = url
+  def __init__(self, languageCode = "en", id="0"):
+    super(TedTalk, self).__init__() 
     self.languageCode = languageCode
-    self.id = id#TedTalkFetcher.GetID(url)
-    self.title = TedTalkFetcher.GetTitle(url)
+    self.id = id 
     self.subtitles = ResetStartTime(TedTalkFetcher.GetSubtitles(self.id, languageCode))
   
   def __str__(self):

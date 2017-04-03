@@ -15,12 +15,9 @@ DebugTagType = DebugTag.InitDebugTagTypes()
 
 TED_ID      = sys.argv[1]
 REFACT_TYPE = sys.argv[2]
-TALK_URL = "http://www.ted.com/talks/sebastian_wernicke_how_to_use_data_to_make_a_hit_tv_show"
-
-
-
-enTalk = TedTalk(url = TALK_URL, languageCode = 'en',    id = TED_ID)
-chTalk = TedTalk(url = TALK_URL, languageCode = 'zh-tw', id = TED_ID)
+ 
+enTalk = TedTalk(languageCode = 'en',    id = TED_ID)
+chTalk = TedTalk(languageCode = 'zh-tw', id = TED_ID)
  
 baseDirPath = 'practice/'
 filePath = '%s/%s.txt' % (baseDirPath, str(chTalk.id))
@@ -32,8 +29,8 @@ enLenOriginal = len(filteredEnglishSubtitles)
 chLenOriginal = len(filteredChineseSubtitles) 
  
 PRefact.RefactStartOfParagraph(enTalk, chTalk, refactType = REFACT_TYPE) 
-filteredChineseSubtitles = chTalk.GroupToParagraph2()
-filteredEnglishSubtitles = enTalk.GroupToParagraph2()
+filteredChineseSubtitles = chTalk.GroupToParagraph()
+filteredEnglishSubtitles = enTalk.GroupToParagraph()
 Log.LogInit(TED_ID, enLenOriginal, chLenOriginal, filteredEnglishSubtitles, filteredChineseSubtitles)
 
 [filteredChineseSubtitles, filteredEnglishSubtitles] = PMerge.MergeSubtitles(filteredEnglishSubtitles, filteredChineseSubtitles)
@@ -67,15 +64,13 @@ def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
 
   resultObj = GetTitleAndURL(TED_ID)
   resultObj["paragraphs"] = obj
-  result = json.dumps(resultObj, ensure_ascii=False)
-  
-  #print result
+  result = json.dumps(resultObj, ensure_ascii=False) 
+
   WriteFileContent(filePath,result)
 
 
 if DebugTagType.PrintSubtitles in debugTags:
   PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles)
-
 
 if DebugTagType.File in debugTags:
   

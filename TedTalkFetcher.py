@@ -32,18 +32,4 @@ def GetSubtitles(talkID, languageCode):
     print "The response data isn't JSON format. (%s)" % subtitleUrl
     exit(0)
  
-
-def GetID(url):
-  command = "curl -s %s | grep al:ios:ur  | awk -F '/' '{print $4}'  | awk -F '?' '{print $1}'" % ( url )
-  talkID = 53#os.popen(command).readlines()[0].strip()
-  try:
-    talkID = int(talkID)
-  except:
-    print "talk id %s is't int" % talkID
-    exit(0)
-
-  return talkID
-  
-
-def GetTitle(url):
-  return url.split('/')[-1].replace('_',' ')
+ 
