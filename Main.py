@@ -19,7 +19,7 @@ REFACT_TYPE = sys.argv[2]
 enTalk = TedTalk(languageCode = 'en',    id = TED_ID)
 chTalk = TedTalk(languageCode = 'zh-tw', id = TED_ID)
  
-baseDirPath = 'practice/'
+baseDirPath = 'output/'
 filePath = '%s/%s.json' % (baseDirPath, str(chTalk.id))
  
 filteredEnglishSubtitles = enTalk.subtitles
