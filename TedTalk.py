@@ -1,6 +1,5 @@
 import TedTalkFetcher as TedTalkFetcher
 from TedSubtitle import TedSubtitle
-import ParagraphDetector as ParagraphDetector
 
 class TedTalk(object):
   """docstring for TedTalk"""
