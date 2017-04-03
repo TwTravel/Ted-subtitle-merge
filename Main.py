@@ -20,7 +20,7 @@ enTalk = TedTalk(languageCode = 'en',    id = TED_ID)
 chTalk = TedTalk(languageCode = 'zh-tw', id = TED_ID)
  
 baseDirPath = 'practice/'
-filePath = '%s/%s.json' % (baseDirPath, str(chTalk.id))
+filePath = '%s/%s.txt' % (baseDirPath, str(chTalk.id))
  
 filteredEnglishSubtitles = enTalk.subtitles
 filteredChineseSubtitles = chTalk.subtitles
@@ -33,8 +33,9 @@ filteredChineseSubtitles = chTalk.GroupToParagraph()
 filteredEnglishSubtitles = enTalk.GroupToParagraph()
 Log.LogInit(TED_ID, enLenOriginal, chLenOriginal, filteredEnglishSubtitles, filteredChineseSubtitles)
 
-[filteredChineseSubtitles, filteredEnglishSubtitles] = PMerge.MergeSubtitles(filteredEnglishSubtitles, filteredChineseSubtitles)
+[filteredEnglishSubtitles, filteredChineseSubtitles] = PMerge.MergeSubtitles(filteredEnglishSubtitles, filteredChineseSubtitles)
 Log.LogMerged(filteredEnglishSubtitles, filteredChineseSubtitles)  
+PMerge.printParagraph(filteredChineseSubtitles)
 
 def ReadFileContent(filePath):
   fileRead = open(filePath, 'r')
@@ -53,7 +54,7 @@ def GetTitleAndURL(id):
   title = title.title().replace('_', ' ')
   return {"title" : title, 'url' : url}
 
-def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
+def PrintResult( filteredEnglishSubtitles, filteredChineseSubtitles):
   contents = [ str(enTalk.id), '\n', '\n' ]
 
   obj = []
@@ -70,26 +71,20 @@ def PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles):
 
 
 if DebugTagType.PrintSubtitles in debugTags:
-  PrintResult(filteredChineseSubtitles, filteredEnglishSubtitles)
+  PrintResult(filteredEnglishSubtitles, filteredChineseSubtitles)
 
 if DebugTagType.File in debugTags:
-  
   contentsInFile = ReadFileContent(filePath)
-
   lengthForChineseSubtitles = len(filteredChineseSubtitles)
-
   idxForChineseSubtitles = 0
   i = 0
   while i < len(contentsInFile):
     if Number.IsInt(contentsInFile[i]):
       i += 2
       hasTranslated = len(contentsInFile[i]) > 0 or True
-
       if hasTranslated:
         contentsInFile[i] = filteredChineseSubtitles[idxForChineseSubtitles].content.encode('utf8')
-
       idxForChineseSubtitles += 1
-
     i += 1
   
   WriteFileContent(filePath,'\n'.join(contentsInFile))

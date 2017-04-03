@@ -11,7 +11,7 @@ class TedSubtitle(object):
     self.content = self.content  
 
   def __str__(self): 
-    return self.startOfParagraph+ " " +str(self.startTime)+" "+str(self.duration)+" "+str(self.endTime)+" "+self.content.encode('utf8')
+    return str(int(self.startOfParagraph))+ " " +str(self.startTime)+" "+str(self.duration)+" "+str(self.endTime)+" "+self.content.encode('utf8')
      
   def TrimNewLine(self):
     self.content = self.content.replace('\n','')
