@@ -20,7 +20,7 @@ enTalk = TedTalk(languageCode = 'en',    id = TED_ID)
 chTalk = TedTalk(languageCode = 'zh-tw', id = TED_ID)
  
 baseDirPath = 'practice/'
-filePath = '%s/%s.txt' % (baseDirPath, str(chTalk.id))
+filePath = '%s/%s.json' % (baseDirPath, str(chTalk.id))
  
 filteredEnglishSubtitles = enTalk.subtitles
 filteredChineseSubtitles = chTalk.subtitles
@@ -53,7 +53,7 @@ def GetTitleAndURL(id):
   title = title.title().replace('_', ' ')
   return {"title" : title, 'url' : url}
 
-def PrintResult( filteredEnglishSubtitles, filteredChineseSubtitles): 
+def PrintResult(filteredEnglishSubtitles, filteredChineseSubtitles): 
   obj = []
   for i in xrange(len(filteredChineseSubtitles)):    
     a1 = filteredEnglishSubtitles[i].content.encode('utf8')
