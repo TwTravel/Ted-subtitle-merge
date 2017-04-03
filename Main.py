@@ -20,7 +20,7 @@ enTalk = TedTalk(languageCode = 'en',    id = TED_ID)
 chTalk = TedTalk(languageCode = 'zh-tw', id = TED_ID)
  
 baseDirPath = 'practice/'
-filePath = '%s/%s.txt' % (baseDirPath, str(chTalk.id))
+filePath = '%s/%s.json' % (baseDirPath, str(chTalk.id))
  
 filteredEnglishSubtitles = enTalk.subtitles
 filteredChineseSubtitles = chTalk.subtitles
