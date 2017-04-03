@@ -54,9 +54,7 @@ def GetTitleAndURL(id):
   title = title.title().replace('_', ' ')
   return {"title" : title, 'url' : url}
 
-def PrintResult( filteredEnglishSubtitles, filteredChineseSubtitles):
-  contents = [ str(enTalk.id), '\n', '\n' ]
-
+def PrintResult( filteredEnglishSubtitles, filteredChineseSubtitles): 
   obj = []
   for i in xrange(len(filteredChineseSubtitles)):    
     a1 = filteredEnglishSubtitles[i].content.encode('utf8')
