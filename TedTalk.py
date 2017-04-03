@@ -7,7 +7,7 @@ class TedTalk(object):
     super(TedTalk, self).__init__() 
     self.languageCode = languageCode
     self.id = id 
-    self.subtitles = ResetStartTime(TedTalkFetcher.GetSubtitles(self.id, languageCode))
+    self.subtitles = RemoveAdTime(TedTalkFetcher.GetSubtitles(self.id, languageCode))
   
   def __str__(self):
     description = "" #"Title:%s\n" % self.title
@@ -37,11 +37,13 @@ class TedTalk(object):
   def ResetStartOfParagraph(self, flag):
     for subtitle in self.subtitles:
       subtitle.startOfParagraph = flag
-# remove Intro/Ad time
-def ResetStartTime(arr):
-  for i in range(len(arr)):
-    arr[i].startTime -= arr[0].startTime
 
+# remove Intro/Ad time
+def RemoveAdTime(arr):
+  adTime = arr[0].startTime 
+  for i in range(len(arr)):
+    arr[i].startTime -= adTime
+    arr[i].endTime   -= adTime
   return arr
 
 
