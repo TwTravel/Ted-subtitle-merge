@@ -34,8 +34,7 @@ filteredEnglishSubtitles = enTalk.GroupToParagraph()
 Log.LogInit(TED_ID, enLenOriginal, chLenOriginal, filteredEnglishSubtitles, filteredChineseSubtitles)
 
 [filteredEnglishSubtitles, filteredChineseSubtitles] = PMerge.MergeSubtitles(filteredEnglishSubtitles, filteredChineseSubtitles)
-Log.LogMerged(filteredEnglishSubtitles, filteredChineseSubtitles)  
-PMerge.printParagraph(filteredChineseSubtitles)
+Log.LogMerged(filteredEnglishSubtitles, filteredChineseSubtitles)   
 
 def ReadFileContent(filePath):
   fileRead = open(filePath, 'r')
