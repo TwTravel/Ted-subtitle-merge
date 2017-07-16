@@ -6,20 +6,30 @@ import json
 import sys
 from collections import OrderedDict
 import json
-
+import time
+import requests
 
 
 def GetTitleAndURL(id):
-  for attempt in range(10):
+  for attempt in range(20):
     try:
-      command = "curl -s http://www.ted.com/talks/view/id/%s" % id
-      output = os.popen(command).readlines()[0]
-      url = output.split('"')[1]
+      r = requests.get("http://www.ted.com/talks/view/id/%s" % id)
+      print r
+      arr = r.text.split('\n')
+
+
+      for i in arr:
+        if "og:url" in i:
+          texts = i.split('"')
+          url = texts[3]
+          break
+
       title = url.split('/')[-1]
       title = title.title().replace('_', ' ')
       return {"title" : title, 'url' : url}
-    except:
-      print id, "exe------------"
+    except Exception, e:
+      time.sleep(1)
+      print id, "exe------------", e
       continue
 
 
