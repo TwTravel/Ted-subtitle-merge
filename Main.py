@@ -9,6 +9,7 @@ import ParagraphRefact as PRefact
 import Log 
 import json
 import os
+import requests
 
 debugTags    = DebugTag.InitDebugTags()
 DebugTagType = DebugTag.InitDebugTagTypes()
@@ -40,10 +41,12 @@ def ReadFileContent(filePath):
   fileRead = open(filePath, 'r')
   return fileRead.read().split('\n')
 
+import io
+
 def WriteFileContent(filePath, content):
-  fileWrite = open(filePath,'w')
-  fileWrite.write(content) # python will convert \n to os.linesep
-  fileWrite.close() 
+  with io.open(filePath, 'w') as f:
+    f.write(content) # python will convert \n to os.linesep
+
 
 def GetTitleAndURL(id):
   for attempt in range(20):
@@ -59,20 +62,21 @@ def GetTitleAndURL(id):
 
       title = url.split('/')[-1]
       title = title.title().replace('_', ' ')
-      return {"title" : title, 'url' : url}
-    except:
+      return {u"title" : title, u'url' : url}
+    except Exception, e:
+      print e
       continue
 
 def PrintResult(filteredEnglishSubtitles, filteredChineseSubtitles): 
   obj = []
   for i in xrange(len(filteredChineseSubtitles)):    
-    a1 = filteredEnglishSubtitles[i].content.encode('utf8')
-    b1 = filteredChineseSubtitles[i].content.encode('utf8')
-    obj.append({"zh-tw" : b1, "en" : a1})
+    a1 = unicode(filteredEnglishSubtitles[i].content)
+    b1 = unicode(filteredChineseSubtitles[i].content)
+    obj.append({u"zh-tw" : b1, u"en" : a1})
 
   resultObj = GetTitleAndURL(TED_ID)
-  resultObj["paragraphs"] = obj
-  result = json.dumps(resultObj, ensure_ascii=False) 
+  resultObj[u"paragraphs"] = obj
+  result = json.dumps(resultObj, ensure_ascii=False, sort_keys=True) 
 
   WriteFileContent(filePath,result)
 
