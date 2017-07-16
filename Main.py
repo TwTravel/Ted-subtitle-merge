@@ -46,12 +46,22 @@ def WriteFileContent(filePath, content):
   fileWrite.close() 
 
 def GetTitleAndURL(id):
-  command = "curl -s http://www.ted.com/talks/view/id/%s" % id
-  output = os.popen(command).readlines()[0]
-  url = output.split('"')[1]
-  title = url.split('/')[-1]
-  title = title.title().replace('_', ' ')
-  return {"title" : title, 'url' : url}
+  for attempt in range(20):
+    try:
+      r = requests.get("http://www.ted.com/talks/view/id/%s" % id)
+      arr = r.text.split('\n')
+      
+      for i in arr:
+        if "og:url" in i:
+          texts = i.split('"')
+          url = texts[3]
+          break
+
+      title = url.split('/')[-1]
+      title = title.title().replace('_', ' ')
+      return {"title" : title, 'url' : url}
+    except:
+      continue
 
 def PrintResult(filteredEnglishSubtitles, filteredChineseSubtitles): 
   obj = []
