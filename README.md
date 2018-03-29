@@ -9,7 +9,7 @@
 ```json
 [  
    {  
-      "en":"How do you explainwhen things don't go as we assume?",
+      "en":"How do you explain\nwhen things don't go as we assume?",
       "zh-tw":"你會怎麼解釋當事情不如我們所想的一般時？"
    },
    {  
@@ -17,7 +17,7 @@
       "zh-tw":"或者更好的是，你如何解釋"
    },
    {  
-      "en":"when others are able to achieve thingsthat seem to defy all of the assumptions?",
+      "en":"when others are able to achieve things\nthat seem to defy all of the assumptions?",
       "zh-tw":"當其他人能夠完成似乎違反所有假設的事時？"
    }
 ]
@@ -121,7 +121,7 @@ https://www.ted.com/talks/subtitles/id/848/lang/zh-tw
 ```json
 [  
    {  
-      "en":"How do you explainwhen things don't go as we assume?",
+      "en":"How do you explain\nwhen things don't go as we assume?",
       "zh-tw":"你會怎麼解釋當事情不如我們所想的一般時？"
    },
    {  
@@ -129,7 +129,7 @@ https://www.ted.com/talks/subtitles/id/848/lang/zh-tw
       "zh-tw":"或者更好的是，你如何解釋"
    },
    {  
-      "en":"when others are able to achieve thingsthat seem to defy all of the assumptions?",
+      "en":"when others are able to achieve things\nthat seem to defy all of the assumptions?",
       "zh-tw":"當其他人能夠完成似乎違反所有假設的事時？"
    }
 ]
