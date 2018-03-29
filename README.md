@@ -1,84 +1,163 @@
 # Ted subtitle merge
 
- 
-此專案是用於 merge Ted 的字幕，
-會輸出 中英字幕合併之後的結果，以 json 格式呈現。
+## 這東西有什麼用？(What)
+
+此專案是用合併 Ted 的中英字幕，
+會輸出 中英字幕合併之後的結果：
 
 
-	{
-	    "url": "http:xxx", 
-	    "title": ""
-	    "Paragraphs": [
-	        {
-	            "chinese": "Roy Price這個人，各位可能都未曾聽過，即使他曾負責過你生命中平凡無奇的22分鐘，在2013年4月19日這一天。他也許也曾負責帶給各位非常歡樂的22分鐘，但你們其中也許很多人並沒有。而這一切全部要回到Roy在三年前的一個決定。", 
-	            "english": "Roy Price is a man that most of you have probably never heard about, even though he may have been responsible for 22 somewhat mediocre  minutes of your life on April 19, 2013. He may have also been responsible for 22 very entertaining minutes, but not very many of you. And all of that goes back to a decision that Roy had to make about three years ago."
-	        }, 
-	        {
-	            "chinese": "所以，你明白，Roy Price是Amazon廣播公司的一位資深決策者。這是Amazon旗下的一家電視節目製作公司。他47歲，身材不錯，尖頭髮，在Twitter上形容自己是“電影、電視、科技、墨西哥捲餅 。”Roy Price有一個責任非常重大的工作，因為他要負責幫Amazon挑選即將製作的原創內容節目。", 
-	            "english": "So you see, Roy Price is a senior executive with Amazon Studios. That's the TV production company of Amazon. He's 47 years old, slim, spiky hair, describes himself on Twitter as \"movies, TV, technology, tacos.\" And Roy Price has a very responsible job, because it's his responsibility to pick the shows, the original content that Amazon is going to make."
-	        } ... ]
-	}
+```json
+[  
+   {  
+      "en":"How do you explainwhen things don't go as we assume?",
+      "zh-tw":"你會怎麼解釋當事情不如我們所想的一般時？"
+   },
+   {  
+      "en":"Or better, how do you explain",
+      "zh-tw":"或者更好的是，你如何解釋"
+   },
+   {  
+      "en":"when others are able to achieve thingsthat seem to defy all of the assumptions?",
+      "zh-tw":"當其他人能夠完成似乎違反所有假設的事時？"
+   }
+]
+```
 
 
-一開始先給一個 talk 網址：   
-https://www.ted.com/talks/sebastian_wernicke_how_to_use_data_to_make_a_hit_tv_show
+## 為什麼需要這個？(Why)
+
+因為想要中英字幕對照一起看，但是從 `Ted` 拿到的中英字幕，發現沒辦法很容易的把中英字幕集結起來，因為有些話英文講可能要三句，中文只要一句，例如 Simon Sinek 的 [How great leaders inspire action](https://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action)
+
+我們可以先透過解析 `html` 去拿到 `talk id` ：
+
+```bash
+curl -s https://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action | grep al:ios:ur  | awk -F '/' '{print $4}'  | awk -F '?' '{print $1}'
+// 848
+```	
+
+再用 `talk id` 去拿到該 `talk` 的中英字幕：
+
+https://www.ted.com/talks/subtitles/id/848/lang/en    
+https://www.ted.com/talks/subtitles/id/848/lang/zh-tw
+
+就可以拿到中英字幕：
 
 
-先在 TedTalkFetcher.py 使用 curl + grep + awk 拿到 talk id   
-
-	curl -s https://www.ted.com/talks/sebastian_wernicke_how_to_use_data_to_make_a_hit_tv_show | grep al:ios:ur  | awk -F '/' '{print $4}'  | awk -F '?' '{print $1}'
-	
-	
-再用 talk id 去 get 網頁
-
-https://www.ted.com/talks/subtitles/id/2403/lang/en    
-https://www.ted.com/talks/subtitles/id/2403/lang/zh-tw
-
-get 出來的 json 長這樣：
-
-	{  
-	   "captions":[  
-	      {  
-	         "duration":4276,
-	         "content":"Roy Price is a man that most of you\nhave probably never heard about,",
-	         "startOfParagraph":true,
-	         "startTime":820
-	      },
-	      {  
-	         "duration":2496,
-	         "content":"even though he may have been responsible",
-	         "startOfParagraph":false,
-	         "startTime":5120
-	      },
-	      {  
-	         "duration":6896,
-	         "content":"for 22 somewhat mediocre \nminutes of your life on April 19, 2013.",
-	         "startOfParagraph":false,
-	         "startTime":7640
-	      },
-	      {  
-	         "duration":3176,
-	         "content":"He may have also been responsible\nfor 22 very entertaining minutes,",
-	         "startOfParagraph":false,
-	         "startTime":14560
-	      } ...
-	   ]
-	}
+```json
+{  
+   "captions":[  
+      {  
+         "duration":2000,
+         "content":"你會怎麼解釋",
+         "startOfParagraph":true,
+         "startTime":1000
+      },
+      {  
+         "duration":2000,
+         "content":"當事情不如我們所想的一般時？",
+         "startOfParagraph":false,
+         "startTime":3000
+      },
+      {  
+         "duration":3000,
+         "content":"或者更好的是，你如何解釋",
+         "startOfParagraph":false,
+         "startTime":5000
+      },
+      {  
+         "duration":2000,
+         "content":"當其他人能夠完成似乎",
+         "startOfParagraph":false,
+         "startTime":8000
+      },
+      {  
+         "duration":2000,
+         "content":"違反所有假設的事時？",
+         "startOfParagraph":false,
+         "startTime":10000
+      }
+   ]
+}
+```
 
 
-**startOfParagraph** 沒什麼用，因為搜尋中英字幕的  `"startOfParagraph":true` 的個數是不一樣的，  
-由此可見不能單純用這個來做 merge 條件。
+```json
+{  
+   "captions":[  
+      {  
+         "duration":3976,
+         "content":"How do you explain\nwhen things don't go as we assume?",
+         "startOfParagraph":true,
+         "startTime":1000
+      },
+      {  
+         "duration":2976,
+         "content":"Or better, how do you explain",
+         "startOfParagraph":false,
+         "startTime":5000
+      },
+      {  
+         "duration":3976,
+         "content":"when others are able to achieve things\nthat seem to defy all of the assumptions?",
+         "startOfParagraph":false,
+         "startTime":8000
+      }
+   ]
+}
+```
+
+其中各欄位的意義：
+
+| 欄位名稱 | 意義 |  
+|---|---|
+| `duration` | 這句話講了多久，單位為毫秒 |  
+| `content` | 講什麼 |  
+| `startOfParagraph` | 是不是段落的開始 |  
+| `startTime` | 開始講的時間，單位為毫秒 |  
+
+這個例子可以看出同樣的話，中文的字幕是六句；而英文是三句。  
+而這個程式的功能就是**將兩個字幕合併**，將同樣的話**對齊**：
+
+```json
+[  
+   {  
+      "en":"How do you explainwhen things don't go as we assume?",
+      "zh-tw":"你會怎麼解釋當事情不如我們所想的一般時？"
+   },
+   {  
+      "en":"Or better, how do you explain",
+      "zh-tw":"或者更好的是，你如何解釋"
+   },
+   {  
+      "en":"when others are able to achieve thingsthat seem to defy all of the assumptions?",
+      "zh-tw":"當其他人能夠完成似乎違反所有假設的事時？"
+   }
+]
+```
+
+## 要怎麼做到合併呢？(How)
+
+首先先觀察 `startOfParagraph` 能不能當作合併的條件，
+要先搜尋中英字幕的`"startOfParagraph":true` 的個數，  
+因為 `"startOfParagraph":true` 代表這是一個段落的開始，  
+搜尋此 talk 發現中文的個數是 `24` 個，英文是 `30` 個，  
+所以不能單純用這個來做合併條件。
 
 
 所以剩下幾個有用的資訊：
 
-1. startTime
-2. duration
+1. `startTime`
+2. `duration`
 
-根據這兩個資訊來做 merge。
+目前是根據這兩個資訊來做合併的條件，大致上分為兩個步驟：
 
-但有時候不想一段落太多句子，所以用 ParagraphDetector.py 來判斷目前字串是否算一個句子。
-	
+
+1. 找出英文幾句話是一個段落。 
+  - 偵測到句尾有 `.`，就可能是一個段落)，會得到一個段落的 `startTimeOfParagraph` 跟 `durationOfParagraph`。
+2. 找出中文哪個段落 是 對應剛剛找到的英文段落。 
+  - 將中文字幕一句一句的 `duration` 加起來，等於剛剛英文的 `durationOfParagraph` 就是中文的一個段落。
+
+
 
 	 
 
