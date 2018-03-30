@@ -8,7 +8,7 @@ def refactWithLine(talk, countOfLine):
 	subtitle = talk.subtitles
 	subtitle[0].startOfParagraph = True 
 	for i in xrange(1,len(subtitle)):
-	  if(subtitle[i].content[-1] == "."):
+	  if(subtitle[i].content[-1] == "." or subtitle[i].content[-1] == "?"):
 	    count = count + 1
 	    if(i < len(subtitle)-1 and count == countOfLine):
 	      subtitle[i+1].startOfParagraph = True

@@ -13,13 +13,13 @@ class TedSubtitle(object):
   def __str__(self): 
     return str(int(self.startOfParagraph))+ " " +str(self.startTime)+" "+str(self.duration)+" "+str(self.endTime)+" "+self.content.encode('utf8')
      
-  def TrimNewLine(self):
-    self.content = self.content.replace('\n','')
+  def TrimNewLine(self, content):
+    return content.replace('\n',' ')
 
   def FilterContent(self, content):
-    redundantWords = ["(Audience whistles)", "(Applause)", "(Laughter)", "(Cheer)", u"(掌聲)", u"(笑聲)", u"（笑聲）", u"（掌聲）", u"(笑)", u"(歡呼)", u"－－", "\n"]
+    redundantWords = ["(Audience whistles)", "(Applause)", "(Laughter)", "(Cheer)", u"(掌聲)", u"(笑聲)", u"（笑聲）", u"（掌聲）", u"(笑)", u"(歡呼)", u"－－"]
     for word in redundantWords:
-      content = content.replace(word, '')
+      content = self.TrimNewLine(content.replace(word, ''))
     return content.strip()
 
   def extendDuration(self, startTime, duration):

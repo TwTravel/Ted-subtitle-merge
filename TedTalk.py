@@ -3,11 +3,11 @@ from TedSubtitle import TedSubtitle
 
 class TedTalk(object):
   """docstring for TedTalk"""
-  def __init__(self, languageCode = "en", id="0"):
+  def __init__(self, languageCode = "en", id="0", introDuration = 0):
     super(TedTalk, self).__init__() 
     self.languageCode = languageCode
     self.id = id 
-    self.subtitles = RemoveAdTime(TedTalkFetcher.GetSubtitles(self.id, languageCode))
+    self.subtitles = AddIntroTime(TedTalkFetcher.GetSubtitles(self.id, languageCode), int(introDuration * 1000))
   
   def __str__(self):
     description = "" #"Title:%s\n" % self.title
@@ -46,5 +46,13 @@ def RemoveAdTime(arr):
     arr[i].startTime -= adTime
     arr[i].endTime   -= adTime
   return arr
+
+def AddIntroTime(arr, introDuration):
+
+  for i in range(len(arr)):
+    arr[i].startTime += introDuration
+    arr[i].endTime   += introDuration
+  return arr
+
 
 

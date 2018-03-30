@@ -9,7 +9,7 @@
 ```json
 [  
    {  
-      "en":"How do you explain\nwhen things don't go as we assume?",
+      "en":"How do you explain when things don't go as we assume?",
       "zh-tw":"你會怎麼解釋當事情不如我們所想的一般時？"
    },
    {  
@@ -17,7 +17,7 @@
       "zh-tw":"或者更好的是，你如何解釋"
    },
    {  
-      "en":"when others are able to achieve things\nthat seem to defy all of the assumptions?",
+      "en":"when others are able to achieve things that seem to defy all of the assumptions?",
       "zh-tw":"當其他人能夠完成似乎違反所有假設的事時？"
    }
 ]
@@ -121,7 +121,7 @@ https://www.ted.com/talks/subtitles/id/848/lang/zh-tw
 ```json
 [  
    {  
-      "en":"How do you explain\nwhen things don't go as we assume?",
+      "en":"How do you explain when things don't go as we assume?",
       "zh-tw":"你會怎麼解釋當事情不如我們所想的一般時？"
    },
    {  
@@ -129,7 +129,7 @@ https://www.ted.com/talks/subtitles/id/848/lang/zh-tw
       "zh-tw":"或者更好的是，你如何解釋"
    },
    {  
-      "en":"when others are able to achieve things\nthat seem to defy all of the assumptions?",
+      "en":"when others are able to achieve things that seem to defy all of the assumptions?",
       "zh-tw":"當其他人能夠完成似乎違反所有假設的事時？"
    }
 ]
@@ -153,11 +153,34 @@ https://www.ted.com/talks/subtitles/id/848/lang/zh-tw
 
 
 1. 找出英文幾句話是一個段落。 
-  - 偵測到句尾有 `.`，就可能是一個段落)，會得到一個段落的 `startTimeOfParagraph` 跟 `durationOfParagraph`。
+  - 偵測到句尾有 `.`、`?`，就可能是一個段落，會得到一個段落的 `startTimeOfParagraph` 跟 `durationOfParagraph`。
 2. 找出中文哪個段落 是 對應剛剛找到的英文段落。 
   - 將中文字幕一句一句的 `duration` 加起來，等於剛剛英文的 `durationOfParagraph` 就是中文的一個段落。
 
 
+## 如何使用
 
-	 
+```bash
+pip install requests # 先裝 requests 套件
+
+mkdir output # 建立輸出的資料夾
+```
+
+
+### 合併字幕 (使用 Talk id 指定 talk)
+
+```bash
+./Main.py 848 # 執行程式，後方參數為 talk id
+```
+
+### 合併字幕 (使用 網址 指定 talk)
+
+```bash
+curl -s https://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action | grep al:ios:ur  | awk -F '/' '{print $4}'  | awk -F '?' '{print $1}' | xargs ./Main.py
+```
+
+最後輸出的檔案路徑是：
+
+`output/848.json`  
+`output/848.srt`
 
